@@ -4,7 +4,8 @@ How much do a team's Top 6 forwards contribute to winning compared with its Bott
 * What would the Top 6 have to do if there were **no Bottom 6**?
 * What kind of Bottom 6 helps **any** team win?
 
-**Read the full write-up: [REPORT.md](REPORT.md)** (14 charts, every number sourced from [`results/summary.json`](results/summary.json)).
+**Web page: [luca-pfi.github.io/NHL](https://luca-pfi.github.io/NHL/)** (the report as a page, light and dark mode)
+**Full write-up: [REPORT.md](REPORT.md)** (14 charts, every number sourced from [`results/summary.json`](results/summary.json)).
 
 ![Depth goal lift](figures/04_depth_goal_lift.png)
 
@@ -21,13 +22,15 @@ How much do a team's Top 6 forwards contribute to winning compared with its Bott
 
 ```
 REPORT.md                 full analysis write-up
-figures/                  all charts (PNG)
+index.html                the report as a web page (served by GitHub Pages)
+figures/                  all charts (PNG); figures/dark/ holds the dark-mode versions
 results/                  the table behind every chart + summary.json + model_info.json
 src/fetch_games.py        download boxscore + play-by-play for every game (api-web.nhle.com)
 src/build_dataset.py      raw JSON -> player-game, shot, goal and manpower tables
 src/models.py             expected-goals model and in-game win-probability model
 src/features.py           Top 6 / Bottom 6 roles, even-strength on-ice estimates, team-game and team-season tables
 src/analysis.py           every analysis, chart and number in the report
+src/render_dark_figures.py  redraw every chart with the dark palette (figures/dark/)
 src/style.py              chart palette and styling
 data/processed/           analysis-ready tables (see below)
 run_all.sh                runs the whole pipeline
