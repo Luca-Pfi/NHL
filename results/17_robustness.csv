@@ -1,0 +1,3 @@
+definition,bottom6_goal_share,bottom6_toi_share,bottom6_pm_per_game,top6_pm_per_game,logit_T6_G,logit_B6_G,win_pct_b6_scored,win_pct_b6_blanked
+season_role,25.2,40.6,-0.318,0.001,1.209,1.191,62.4,36.0
+game_toi,25.9,39.2,-0.396,0.079,1.186,1.245,63.7,34.3

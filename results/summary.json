@@ -1,0 +1,717 @@
+{
+  "data": {
+    "seasons": [
+      20212022,
+      20222023,
+      20232024,
+      20242025,
+      20252026
+    ],
+    "regular_season_games": 6560,
+    "playoff_games": 433,
+    "team_seasons": 160,
+    "skater_games": 251689,
+    "goals": 43110,
+    "xg_auc": 0.769,
+    "wp_auc": 0.81,
+    "k_forwards_per_goal": 3.082
+  },
+  "shares": {
+    "Ice time": 40.6,
+    "Even-strength ice time (est.)": 42.1,
+    "Power-play ice time (est.)": 30.2,
+    "Penalty-kill ice time (est.)": 38.0,
+    "Goals": 29.5,
+    "5-on-5 goals": 35.9,
+    "On-ice ES goals for (est.)": 34.6,
+    "On-ice ES goals against (est.)": 39.1,
+    "Power-play goals": 15.1,
+    "Shorthanded goals": 33.1,
+    "Points": 28.7,
+    "Game-winning goals": 27.6,
+    "Go-ahead goals": 30.2,
+    "Win probability added by goals": 28.1,
+    "Shot attempts": 35.4,
+    "Expected goals (xG)": 33.2,
+    "Hits": 58.9,
+    "Blocked shots": 46.6,
+    "Takeaways": 37.2,
+    "Giveaways": 36.4,
+    "Penalties drawn": 43.5,
+    "Penalties taken": 47.6,
+    "Defensive-zone faceoffs taken": 33.8,
+    "Offensive-zone faceoffs taken": 24.8
+  },
+  "shares_of_team_goals": {
+    "top6": 60.2,
+    "bottom6": 25.2,
+    "defense": 14.6
+  },
+  "even_strength_on_ice": {
+    "T6": {
+      "GF60": 2.89,
+      "GA60": 2.687,
+      "GD60": 0.203,
+      "GF_pct": 51.8,
+      "share_of_es_time": 57.9,
+      "teams_with_positive_GD": 63.7
+    },
+    "B6": {
+      "GF60": 2.104,
+      "GA60": 2.37,
+      "GD60": -0.265,
+      "GF_pct": 47.0,
+      "share_of_es_time": 42.1,
+      "teams_with_positive_GD": 34.4
+    }
+  },
+  "usage": {
+    "T6": {
+      "avg_toi_min": 17.88,
+      "avg_shift_sec": 49.5,
+      "shooting_pct": 13.3,
+      "goals_minus_xg_per60": 0.046
+    },
+    "B6": {
+      "avg_toi_min": 12.34,
+      "avg_shift_sec": 44.0,
+      "shooting_pct": 10.2,
+      "goals_minus_xg_per60": -0.084
+    }
+  },
+  "per60": {
+    "Goals": {
+      "top6": 1.039,
+      "bottom6": 0.638,
+      "ratio": 61.4
+    },
+    "Points": {
+      "top6": 2.475,
+      "bottom6": 1.461,
+      "ratio": 59.0
+    },
+    "Expected goals": {
+      "top6": 0.992,
+      "bottom6": 0.721,
+      "ratio": 72.7
+    },
+    "Shot attempts": {
+      "top6": 14.355,
+      "bottom6": 11.518,
+      "ratio": 80.2
+    },
+    "5-on-5 goals": {
+      "top6": 0.617,
+      "bottom6": 0.507,
+      "ratio": 82.1
+    },
+    "Penalties drawn": {
+      "top6": 0.777,
+      "bottom6": 0.877,
+      "ratio": 112.8
+    },
+    "Takeaways": {
+      "top6": 1.486,
+      "bottom6": 1.292,
+      "ratio": 86.9
+    },
+    "Giveaways": {
+      "top6": 2.223,
+      "bottom6": 1.867,
+      "ratio": 84.0
+    },
+    "Penalties taken": {
+      "top6": 0.631,
+      "bottom6": 0.839,
+      "ratio": 132.9
+    },
+    "Blocked shots": {
+      "top6": 1.783,
+      "bottom6": 2.275,
+      "ratio": 127.6
+    },
+    "Hits": {
+      "top6": 3.337,
+      "bottom6": 7.021,
+      "ratio": 210.4
+    }
+  },
+  "depth_goal_lift": {
+    "0": {
+      "win_if_b6_blanked": 5.2,
+      "win_if_b6_scored": 24.6,
+      "games_b6_scored": 1095,
+      "games_b6_blanked": 1019
+    },
+    "1": {
+      "win_if_b6_blanked": 14.9,
+      "win_if_b6_scored": 47.1,
+      "games_b6_scored": 1943,
+      "games_b6_blanked": 1797
+    },
+    "2": {
+      "win_if_b6_blanked": 38.2,
+      "win_if_b6_scored": 70.0,
+      "games_b6_scored": 1886,
+      "games_b6_blanked": 1566
+    },
+    "3": {
+      "win_if_b6_blanked": 63.0,
+      "win_if_b6_scored": 86.9,
+      "games_b6_scored": 1195,
+      "games_b6_blanked": 997
+    },
+    "4": {
+      "win_if_b6_blanked": 85.8,
+      "win_if_b6_scored": 95.3,
+      "games_b6_scored": 833,
+      "games_b6_blanked": 789
+    }
+  },
+  "b6_scores_at_least_one": 53.0,
+  "win_pct_b6_scored_vs_not": [
+    62.4,
+    36.0
+  ],
+  "t6_scores_at_most_one": 44.6,
+  "logit_goal_coefs": {
+    "Intercept": {
+      "coef": -3.737,
+      "se": 0.07,
+      "odds_ratio": 0.024
+    },
+    "T6_G": {
+      "coef": 1.209,
+      "se": 0.023,
+      "odds_ratio": 3.351
+    },
+    "B6_G": {
+      "coef": 1.191,
+      "se": 0.031,
+      "odds_ratio": 3.29
+    },
+    "D_G": {
+      "coef": 1.191,
+      "se": 0.039,
+      "odds_ratio": 3.289
+    },
+    "is_home": {
+      "coef": 0.256,
+      "se": 0.046,
+      "odds_ratio": 1.291
+    }
+  },
+  "no_depth_scoring": {
+    "actual_win_pct": 50.0,
+    "win_pct_if_b6_goals_erased": 39.6,
+    "actual_pts_pct": 55.6,
+    "pts_pct_if_b6_goals_erased": 44.7,
+    "wins_lost_per_82": 8.5,
+    "standings_points_lost_per_82": 17.8,
+    "share_of_wins_that_needed_a_b6_goal": 30.3,
+    "extra_top6_goals_per_game_needed": 0.764,
+    "b6_goals_per_game": 0.778,
+    "t6_goals_per_game": 1.857,
+    "t6_goals_needed_per_game": 2.62,
+    "t6_increase_needed_pct": 41.1,
+    "share_of_team_seasons_whose_top6_reach_it": 0.6,
+    "best_top6_goals_per_game": 2.744
+  },
+  "goal_leverage": {
+    "B6": {
+      "avg_wpa": 0.151,
+      "gwg_rate": 13.8,
+      "lead_changing": 49.5,
+      "empty_net": 4.6,
+      "pp_rate": 10.7
+    },
+    "D": {
+      "avg_wpa": 0.1722,
+      "gwg_rate": 16.5,
+      "lead_changing": 53.4,
+      "empty_net": 3.9,
+      "pp_rate": 14.3
+    },
+    "T6": {
+      "avg_wpa": 0.1619,
+      "gwg_rate": 15.2,
+      "lead_changing": 49.8,
+      "empty_net": 6.9,
+      "pp_rate": 25.2
+    }
+  },
+  "team_model": {
+    "r2": 0.926,
+    "n": 160,
+    "terms": {
+      "T6_esGD_pg": {
+        "coef": 0.1643,
+        "std_beta": 0.448,
+        "share_of_explained": 35.0,
+        "sd": 0.282
+      },
+      "B6_esGD_pg": {
+        "coef": 0.1383,
+        "std_beta": 0.272,
+        "share_of_explained": 24.7,
+        "sd": 0.204
+      },
+      "st_net_pg": {
+        "coef": 0.1622,
+        "std_beta": 0.32,
+        "share_of_explained": 23.2,
+        "sd": 0.204
+      },
+      "late_net_pg": {
+        "coef": 0.1634,
+        "std_beta": 0.159,
+        "share_of_explained": 17.1,
+        "sd": 0.101
+      }
+    }
+  },
+  "pts_pct_per_goal_diff_per_game": 0.1578,
+  "standings_points_per_goal_diff": 0.316,
+  "playoff_line_pts_pct": 0.5644,
+  "quadrants": {
+    "Strong Top 6 + Strong Bottom 6": {
+      "teams": 57,
+      "pts_pct": 64.5,
+      "playoff_rate": 91.2,
+      "pts_per_82": 105.8
+    },
+    "Strong Top 6 + Weak Bottom 6": {
+      "teams": 23,
+      "pts_pct": 58.5,
+      "playoff_rate": 60.9,
+      "pts_per_82": 95.9
+    },
+    "Weak Top 6 + Strong Bottom 6": {
+      "teams": 23,
+      "pts_pct": 54.9,
+      "playoff_rate": 39.1,
+      "pts_per_82": 90.1
+    },
+    "Weak Top 6 + Weak Bottom 6": {
+      "teams": 57,
+      "pts_pct": 45.7,
+      "playoff_rate": 8.8,
+      "pts_per_82": 74.9
+    }
+  },
+  "theory_requirements": {
+    "top6_share_of_forward_toi": 57.9,
+    "model_coefs": {
+      "top6": 0.08,
+      "bottom6": 0.0481
+    },
+    "bottom6_percentiles": {
+      "5": -1.172,
+      "10": -0.916,
+      "25": -0.63,
+      "50": -0.183,
+      "75": 0.131,
+      "90": 0.417,
+      "95": 0.589
+    },
+    "top6_percentiles": {
+      "5": -0.845,
+      "10": -0.549,
+      "25": -0.208,
+      "50": 0.219,
+      "75": 0.611,
+      "90": 0.879,
+      "95": 0.97
+    },
+    "rows": [
+      {
+        "bottom6": "Replacement-level Bottom 6 (5th pct)",
+        "target": "Playoff line",
+        "required_top6_onGD60": 0.859,
+        "share_of_top6_groups_that_meet_it": 12.5
+      },
+      {
+        "bottom6": "Replacement-level Bottom 6 (5th pct)",
+        "target": "Contender (.620)",
+        "required_top6_onGD60": 1.554,
+        "share_of_top6_groups_that_meet_it": 1.9
+      },
+      {
+        "bottom6": "Weak Bottom 6 (25th pct)",
+        "target": "Playoff line",
+        "required_top6_onGD60": 0.533,
+        "share_of_top6_groups_that_meet_it": 31.2
+      },
+      {
+        "bottom6": "Weak Bottom 6 (25th pct)",
+        "target": "Contender (.620)",
+        "required_top6_onGD60": 1.228,
+        "share_of_top6_groups_that_meet_it": 3.1
+      },
+      {
+        "bottom6": "Average Bottom 6 (median)",
+        "target": "Playoff line",
+        "required_top6_onGD60": 0.264,
+        "share_of_top6_groups_that_meet_it": 48.1
+      },
+      {
+        "bottom6": "Average Bottom 6 (median)",
+        "target": "Contender (.620)",
+        "required_top6_onGD60": 0.959,
+        "share_of_top6_groups_that_meet_it": 5.6
+      },
+      {
+        "bottom6": "Strong Bottom 6 (75th pct)",
+        "target": "Playoff line",
+        "required_top6_onGD60": 0.075,
+        "share_of_top6_groups_that_meet_it": 60.0
+      },
+      {
+        "bottom6": "Strong Bottom 6 (75th pct)",
+        "target": "Contender (.620)",
+        "required_top6_onGD60": 0.77,
+        "share_of_top6_groups_that_meet_it": 16.9
+      },
+      {
+        "bottom6": "Elite Bottom 6 (95th pct)",
+        "target": "Playoff line",
+        "required_top6_onGD60": -0.2,
+        "share_of_top6_groups_that_meet_it": 75.0
+      },
+      {
+        "bottom6": "Elite Bottom 6 (95th pct)",
+        "target": "Contender (.620)",
+        "required_top6_onGD60": 0.495,
+        "share_of_top6_groups_that_meet_it": 34.4
+      }
+    ]
+  },
+  "b2b_fatigue": {
+    "Top 6 xG": {
+      "change": -0.0507,
+      "se": 0.0082
+    },
+    "Top 6 points": {
+      "change": -0.0723,
+      "se": 0.0162
+    },
+    "Top 6 shot attempts": {
+      "change": -0.0229,
+      "se": 0.0055
+    },
+    "Team goals for": {
+      "change": -0.0668,
+      "se": 0.0147
+    },
+    "Team goals against": {
+      "change": 0.0599,
+      "se": 0.0138
+    }
+  },
+  "two_line_theory": {
+    "top6_share": 57.9,
+    "league_rates": {
+      "T6_GF60": 2.89,
+      "T6_GA60": 2.687,
+      "B6_GF60": 2.104,
+      "B6_GA60": 2.37
+    },
+    "league_break_even_fatigue": 3.5,
+    "toi_per_top6_forward_now": 17.9,
+    "toi_per_top6_forward_two_lines": 30.1,
+    "es_minutes_per_game": 50.3,
+    "profiles": {
+      "Elite Top 6 + average Bottom 6": {
+        "break_even_fatigue": 10.5,
+        "T6_GF60": 3.427,
+        "T6_GA60": 2.273,
+        "B6_GF60": 2.048,
+        "B6_GA60": 2.317,
+        "actual_GD_per_game": 0.466
+      },
+      "Average Top 6 + average Bottom 6": {
+        "break_even_fatigue": 3.7,
+        "T6_GF60": 2.878,
+        "T6_GA60": 2.656,
+        "B6_GF60": 2.048,
+        "B6_GA60": 2.317,
+        "actual_GD_per_game": 0.013
+      },
+      "Elite Top 6 + weak Bottom 6": {
+        "break_even_fatigue": 17.7,
+        "T6_GF60": 3.427,
+        "T6_GA60": 2.273,
+        "B6_GF60": 1.692,
+        "B6_GA60": 2.93,
+        "actual_GD_per_game": 0.123
+      },
+      "Average Top 6 + elite Bottom 6": {
+        "break_even_fatigue": -3.8,
+        "T6_GF60": 2.878,
+        "T6_GA60": 2.656,
+        "B6_GF60": 2.55,
+        "B6_GA60": 1.824,
+        "actual_GD_per_game": 0.364
+      }
+    }
+  },
+  "goals_needed_no_depth": {
+    "0": {
+      "win_pct": 5.2,
+      "freq": 16.1
+    },
+    "1": {
+      "win_pct": 14.9,
+      "freq": 28.5
+    },
+    "2": {
+      "win_pct": 38.2,
+      "freq": 26.3
+    },
+    "3": {
+      "win_pct": 63.0,
+      "freq": 16.7
+    },
+    "4": {
+      "win_pct": 80.3,
+      "freq": 8.4
+    },
+    "5": {
+      "win_pct": 95.7,
+      "freq": 4.0
+    }
+  },
+  "bottom6_recipe": {
+    "On-ice ES goals against /60 (lower = better)": {
+      "partial_r": -0.464,
+      "ci90": [
+        -0.556,
+        -0.358
+      ],
+      "raw_r": -0.697
+    },
+    "Faceoff win %": {
+      "partial_r": -0.089,
+      "ci90": [
+        -0.222,
+        0.061
+      ],
+      "raw_r": 0.089
+    },
+    "Share of faceoffs in own zone": {
+      "partial_r": -0.085,
+      "ci90": [
+        -0.214,
+        0.037
+      ],
+      "raw_r": -0.12
+    },
+    "Share of forward ice time": {
+      "partial_r": -0.053,
+      "ci90": [
+        -0.169,
+        0.061
+      ],
+      "raw_r": -0.191
+    },
+    "Hits /60": {
+      "partial_r": -0.047,
+      "ci90": [
+        -0.173,
+        0.091
+      ],
+      "raw_r": -0.035
+    },
+    "Blocked shots /60": {
+      "partial_r": 0.028,
+      "ci90": [
+        -0.111,
+        0.17
+      ],
+      "raw_r": -0.152
+    },
+    "Takeaways - giveaways /60": {
+      "partial_r": 0.1,
+      "ci90": [
+        -0.036,
+        0.226
+      ],
+      "raw_r": 0.023
+    },
+    "Shot attempts /60": {
+      "partial_r": 0.119,
+      "ci90": [
+        -0.01,
+        0.25
+      ],
+      "raw_r": 0.244
+    },
+    "Penalty differential /60": {
+      "partial_r": 0.151,
+      "ci90": [
+        0.005,
+        0.275
+      ],
+      "raw_r": 0.198
+    },
+    "Finishing (goals - xG) /60": {
+      "partial_r": 0.196,
+      "ci90": [
+        0.059,
+        0.327
+      ],
+      "raw_r": 0.075
+    },
+    "Expected goals /60": {
+      "partial_r": 0.202,
+      "ci90": [
+        0.08,
+        0.32
+      ],
+      "raw_r": 0.462
+    },
+    "Goals /60": {
+      "partial_r": 0.297,
+      "ci90": [
+        0.164,
+        0.417
+      ],
+      "raw_r": 0.406
+    },
+    "On-ice ES goals for /60": {
+      "partial_r": 0.321,
+      "ci90": [
+        0.196,
+        0.433
+      ],
+      "raw_r": 0.404
+    },
+    "Points /60": {
+      "partial_r": 0.352,
+      "ci90": [
+        0.208,
+        0.471
+      ],
+      "raw_r": 0.393
+    },
+    "On-ice ES goal differential /60": {
+      "partial_r": 0.583,
+      "ci90": [
+        0.487,
+        0.663
+      ],
+      "raw_r": 0.758
+    }
+  },
+  "value_curves": {
+    "top6_10_to_90": 18.7,
+    "bottom6_10_to_90": 10.5,
+    "bottom6_25_to_75": 6.0,
+    "top6_25_to_75": 10.7,
+    "bottom6_median_to_breakeven": 1.4,
+    "bottom6_median_onGD60": -0.183,
+    "share_of_bottom6_at_or_above_zero": 34.4
+  },
+  "playoffs": {
+    "comparison": {
+      "Regular season": {
+        "bottom6_goal_share": 25.2,
+        "bottom6_toi_share": 40.6,
+        "bottom6_gwg_share": 23.2,
+        "bottom6_wpa_share": 23.7
+      },
+      "Playoffs": {
+        "bottom6_goal_share": 22.8,
+        "bottom6_toi_share": 39.1,
+        "bottom6_gwg_share": 21.9,
+        "bottom6_wpa_share": 22.4
+      }
+    },
+    "series": {
+      "n": 75,
+      "winner_better_T6_GD": 66.7,
+      "winner_better_B6_GD": 70.7,
+      "winner_more_B6_goals": 66.7,
+      "winner_more_T6_goals": 76.0
+    },
+    "champions": [
+      {
+        "season": "2021-22",
+        "team": "COL",
+        "games": 20,
+        "bottom6_goal_share": 16.5,
+        "league": 20.5,
+        "bottom6_esGD_total": 4.5,
+        "top6_esGD_total": 10.4,
+        "bottom6_esGD_pg": 0.227,
+        "others_bottom6_esGD_pg": -0.277
+      },
+      {
+        "season": "2022-23",
+        "team": "VGK",
+        "games": 22,
+        "bottom6_goal_share": 28.4,
+        "league": 24.2,
+        "bottom6_esGD_total": 12.6,
+        "top6_esGD_total": 23.3,
+        "bottom6_esGD_pg": 0.574,
+        "others_bottom6_esGD_pg": -0.22
+      },
+      {
+        "season": "2023-24",
+        "team": "FLA",
+        "games": 24,
+        "bottom6_goal_share": 20.5,
+        "league": 21.2,
+        "bottom6_esGD_total": 3.8,
+        "top6_esGD_total": 2.5,
+        "bottom6_esGD_pg": 0.159,
+        "others_bottom6_esGD_pg": -0.105
+      },
+      {
+        "season": "2024-25",
+        "team": "FLA",
+        "games": 23,
+        "bottom6_goal_share": 20.2,
+        "league": 21.0,
+        "bottom6_esGD_total": 10.9,
+        "top6_esGD_total": 13.5,
+        "bottom6_esGD_pg": 0.472,
+        "others_bottom6_esGD_pg": -0.117
+      },
+      {
+        "season": "2025-26",
+        "team": "CAR",
+        "games": 19,
+        "bottom6_goal_share": 34.8,
+        "league": 27.4,
+        "bottom6_esGD_total": 11.8,
+        "top6_esGD_total": 6.7,
+        "bottom6_esGD_pg": 0.62,
+        "others_bottom6_esGD_pg": -0.15
+      }
+    ]
+  },
+  "robustness": {
+    "season_role": {
+      "bottom6_goal_share": 25.2,
+      "bottom6_toi_share": 40.6,
+      "bottom6_pm_per_game": -0.318,
+      "top6_pm_per_game": 0.001,
+      "logit_T6_G": 1.209,
+      "logit_B6_G": 1.191,
+      "win_pct_b6_scored": 62.4,
+      "win_pct_b6_blanked": 36.0
+    },
+    "game_toi": {
+      "bottom6_goal_share": 25.9,
+      "bottom6_toi_share": 39.2,
+      "bottom6_pm_per_game": -0.396,
+      "top6_pm_per_game": 0.079,
+      "logit_T6_G": 1.186,
+      "logit_B6_G": 1.245,
+      "win_pct_b6_scored": 63.7,
+      "win_pct_b6_blanked": 34.3
+    }
+  }
+}

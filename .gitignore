@@ -1,0 +1,10 @@
+# raw API cache (regenerate with src/fetch_games.py)
+data/raw/
+# large intermediate tables (regenerate with src/build_dataset.py)
+data/processed/shots.csv.gz
+data/processed/wp_states.csv.gz
+data/processed/player_games.csv.gz
+data/processed/goals.csv.gz
+__pycache__/
+*.pyc
+.DS_Store
