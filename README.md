@@ -5,6 +5,7 @@ How much do a team's Top 6 forwards contribute to winning compared with its Bott
 * What kind of Bottom 6 helps **any** team win?
 
 **Web page: [luca-pfi.github.io/NHL](https://luca-pfi.github.io/NHL/)** (the report as a page, light and dark mode)
+
 **Full write-up: [REPORT.md](REPORT.md)** (14 charts, every number sourced from [`results/summary.json`](results/summary.json)).
 
 ![Depth goal lift](figures/04_depth_goal_lift.png)
