@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Top Six vs Bottom Six</title>
+<meta name="description" content="Five NHL seasons of boxscore and play-by-play data on how much top-six and bottom-six forwards contribute to winning, what a team would need with no depth, and which bottom-six traits help any roster.">
+<meta property="og:title" content="Top Six vs Bottom Six">
+<meta property="og:description" content="Five NHL seasons of boxscore and play-by-play data on how much top-six and bottom-six forwards contribute to winning, what a team would need with no depth, and which bottom-six traits help any roster.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://luca-pfi.github.io/NHL/figures/04_depth_goal_lift.png">
+<meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@500&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* base reset */
+*, *::before, *::after { box-sizing: border-box; }
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+/* Layout: one reading column (~68ch) with charts breaking out wider; the hero is a lineup card that splits 12 forwards into Top 6 and Bottom 6 */
+:root {
+  --bg: #f2f4f7;
+  --panel: #fcfcfb;
+  --ink: #101720;
+  --ink-2: #4b5563;
+  --ink-3: #6b7480;
+  --rule: #d7dce3;
+  --top: #2a78d6;
+  --top-wash: #e3eefb;
+  --bottom: #c9531f;
+  --bottom-mark: #eb6834;
+  --bottom-wash: #fbe9e1;
+  --red-line: #c8102e;
+  --fig-light: block;
+  --fig-dark: none;
+  --font-display: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Libre Franklin", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --measure: 68ch;
+  --wide: 1060px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1117; --panel: #161b22; --ink: #e6edf3; --ink-2: #a8b1bd; --ink-3: #8b949e; --rule: #2a323d;
+    --top: #4b94ec; --top-wash: #15263b; --bottom: #ec7a48; --bottom-mark: #d95926; --bottom-wash: #2c1a12;
+    --red-line: #e5484d; --fig-light: none; --fig-dark: block; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117; --panel: #161b22; --ink: #e6edf3; --ink-2: #a8b1bd; --ink-3: #8b949e; --rule: #2a323d;
+  --top: #4b94ec; --top-wash: #15263b; --bottom: #ec7a48; --bottom-mark: #d95926; --bottom-wash: #2c1a12;
+  --red-line: #e5484d; --fig-light: none; --fig-dark: block; color-scheme: dark;
+}
+
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+.page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 72px; }
+.col { max-width: var(--measure); margin-inline: auto; }
+.wide { max-width: var(--wide); margin-inline: auto; }
+a { color: var(--top); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--top); outline-offset: 2px; border-radius: 2px; }
+p { margin: 0; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: 0.005em; }
+h2 { font-size: clamp(2rem, 4.2vw, 2.7rem); line-height: 1.02; font-weight: 800; }
+h3 { font-size: 1.55rem; line-height: 1.1; font-weight: 700; }
+.eyebrow { font-family: var(--font-data); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.key { white-space: nowrap; font-weight: 600; }
+.key::before { content: ""; display: inline-block; width: 0.62em; height: 0.62em; border-radius: 2px; margin-right: 0.32em; vertical-align: 0.04em; }
+.key.top::before { background: var(--top); }
+.key.bottom::before { background: var(--bottom-mark); }
+
+/* ---------- hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.hero-text { display: grid; gap: 18px; min-width: 0; }
+.hero h1 { font-size: clamp(2.9rem, 7.4vw, 5.2rem); line-height: 0.92; font-weight: 800; text-transform: uppercase; }
+.hero h1 .vs { color: var(--ink-3); font-weight: 700; }
+.lede { font-size: 1.16rem; color: var(--ink-2); max-width: 42ch; }
+.meta-line { font-size: 0.9rem; color: var(--ink-3); }
+
+.lineup { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.lineup-title { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.group { border-radius: 8px; padding: 12px; display: grid; gap: 8px; }
+.group.top { background: var(--top-wash); }
+.group.bottom { background: var(--bottom-wash); }
+.group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.group-name { font-family: var(--font-display); font-weight: 800; font-size: 1.45rem; text-transform: uppercase; line-height: 1; }
+.group.top .group-name { color: var(--top); }
+.group.bottom .group-name { color: var(--bottom); }
+.line { display: grid; grid-template-columns: 2.4em repeat(3, minmax(0, 1fr)); gap: 6px; align-items: center; }
+.ln { font-family: var(--font-data); font-size: 0.8rem; color: var(--ink-3); }
+.pos { font-family: var(--font-data); font-size: 0.8rem; text-align: center; padding: 5px 0; border-radius: 5px; background: var(--panel); border: 1px solid var(--rule); }
+.group-foot { font-size: 0.86rem; color: var(--ink-2); }
+.group-foot strong { color: var(--ink); }
+
+.center-ice { position: relative; height: 3px; background: var(--red-line); margin-block: 44px 36px; border-radius: 2px; }
+.center-ice::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--red-line); transform: translate(-50%, -50%); box-shadow: 0 0 0 5px var(--bg); }
+
+/* ---------- key numbers ---------- */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.tile { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 6px; align-content: start; }
+.tile .num { font-family: var(--font-display); font-weight: 800; font-size: 2.5rem; line-height: 1; }
+.tile .num.top { color: var(--top); }
+.tile .num.bottom { color: var(--bottom); }
+.tile p { font-size: 0.92rem; color: var(--ink-2); line-height: 1.45; }
+
+/* ---------- nav ---------- */
+.toc { display: flex; flex-wrap: wrap; gap: 8px 18px; padding-block: 14px; border-block: 1px solid var(--rule); margin-top: 36px; font-size: 0.92rem; }
+.toc a { color: var(--ink-2); text-decoration: none; }
+.toc a:hover { color: var(--top); text-decoration: underline; }
+
+/* ---------- sections ---------- */
+section { padding-top: 64px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+section > * { min-width: 0; }
+.table-wrap { max-width: min(var(--measure), 100%); }
+.section-head { display: grid; gap: 8px; }
+.prose { display: grid; gap: 14px; }
+.prose ul { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+.callout { border-left: 3px solid var(--top); padding: 4px 0 4px 16px; color: var(--ink); font-size: 1.06rem; }
+.callout.bottom { border-left-color: var(--bottom-mark); }
+
+figure { margin: 0; background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 10px; }
+figure img { width: 100%; height: auto; border-radius: 4px; }
+.img-light { display: var(--fig-light); }
+.img-dark { display: var(--fig-dark); }
+figcaption { font-size: 0.86rem; color: var(--ink-3); padding: 8px 6px 2px; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-2); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.n { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.strong { font-weight: 700; }
+.pos-val { color: var(--top); }
+.neg-val { color: var(--bottom); }
+
+.lens { display: grid; gap: 14px; padding: 20px; border: 1px solid var(--rule); border-radius: 10px; background: var(--panel); }
+.lens-tag { font-family: var(--font-data); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--top); }
+
+.checklist { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.checklist li { display: grid; grid-template-columns: 1.4em minmax(0, 1fr); gap: 8px; align-items: start; }
+.checklist .mark { font-family: var(--font-data); font-weight: 500; }
+.checklist .yes { color: var(--top); }
+.checklist .no { color: var(--bottom); }
+
+.method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.method-grid > div { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 8px; align-content: start; font-size: 0.94rem; min-width: 0; }
+.method-grid h3 { font-size: 1.25rem; }
+footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 0.88rem; color: var(--ink-3); display: grid; gap: 6px; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .method-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  .tiles { grid-template-columns: minmax(0, 1fr); }
+  figure { padding: 4px; }
+  .lens { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="wide hero">
+    <div class="hero-text">
+      <p class="eyebrow">NHL depth study &middot; 2021-22 to 2025-26</p>
+      <h1>Top six <span class="vs">vs</span> bottom six</h1>
+      <p class="lede">Which forwards actually win hockey games, what a team would need if its depth disappeared, and what kind of bottom six helps any roster.</p>
+      <p class="meta-line">6,993 games &middot; 251,689 skater-games &middot; 43,110 goals &middot; data from the public NHL web API</p>
+    </div>
+    <div class="lineup" aria-label="A 12-forward lineup split into the top six (lines 1 and 2) and the bottom six (lines 3 and 4)">
+      <div class="lineup-title"><span class="eyebrow">Forward lines</span><span class="eyebrow">Avg TOI per game</span></div>
+      <div class="group top">
+        <div class="group-head"><span class="group-name">Top 6</span><span class="mono">17:53</span></div>
+        <div class="line"><span class="ln">L1</span><span class="pos">LW</span><span class="pos">C</span><span class="pos">RW</span></div>
+        <div class="line"><span class="ln">L2</span><span class="pos">LW</span><span class="pos">C</span><span class="pos">RW</span></div>
+        <p class="group-foot"><strong>60%</strong> of team goals &middot; even-strength goal diff <strong class="mono">+0.20</strong>/60</p>
+      </div>
+      <div class="group bottom">
+        <div class="group-head"><span class="group-name">Bottom 6</span><span class="mono">12:20</span></div>
+        <div class="line"><span class="ln">L3</span><span class="pos">LW</span><span class="pos">C</span><span class="pos">RW</span></div>
+        <div class="line"><span class="ln">L4</span><span class="pos">LW</span><span class="pos">C</span><span class="pos">RW</span></div>
+        <p class="group-foot"><strong>25%</strong> of team goals &middot; even-strength goal diff <strong class="mono">&minus;0.27</strong>/60</p>
+      </div>
+      <p class="group-foot">Defensemen score the other 15%.</p>
+    </div>
+  </header>
+
+  <div class="wide center-ice" role="presentation"></div>
+
+  <div class="wide tiles">
+    <div class="tile"><span class="num bottom">62% / 36%</span><p>Win rate when the bottom six score at least once, and when they don't.</p></div>
+    <div class="tile"><span class="num bottom">+32 pts</span><p>Win % added by one depth goal on nights the top six score only once (15% to 47%).</p></div>
+    <div class="tile"><span class="num top">2.62</span><p>Goals a game the top six would need with no depth scoring. Only 1 of 160 team-seasons got there.</p></div>
+    <div class="tile"><span class="num bottom">5 of 5</span><p>Stanley Cup champions whose bottom six outscored opponents at even strength in the playoffs.</p></div>
+  </div>
+
+  <nav class="wide toc" aria-label="Sections">
+    <a href="#contribution">What each group does</a>
+    <a href="#winning">How it becomes wins</a>
+    <a href="#theory-top">Theory: no bottom six</a>
+    <a href="#theory-bottom">Theory: the right bottom six</a>
+    <a href="#playoffs">Playoffs</a>
+    <a href="#method">Method and limits</a>
+  </nav>
+
+  <!-- ===================== CONTRIBUTION ===================== -->
+  <section id="contribution">
+    <div class="col section-head">
+      <p class="eyebrow">Contribution</p>
+      <h2>The top six score; the bottom six do the heavy lifting</h2>
+    </div>
+    <div class="col prose">
+      <p>Each forward's role comes from his average ice time for that team that season. In every game the six dressed forwards with the most role ice time are the <span class="key top">Top 6</span> and the rest are the <span class="key bottom">Bottom 6</span>.</p>
+      <ul>
+        <li>The top six play 59% of forward minutes and score 70% of forward goals, 85% of power-play goals and 72% of game-winners.</li>
+        <li>At 5-on-5 the gap is much smaller. The bottom six score 36% of forward 5-on-5 goals on 42% of the even-strength time. Most of the top six's scoring edge comes from the power play.</li>
+        <li>The bottom six deliver 59% of forward hits and 47% of forward blocked shots, and take 48% of the penalties.</li>
+      </ul>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/01_production_shares.png" width="1842" height="1446" alt="Stacked bars showing the top six versus bottom six share of 24 forward stats. Ice time splits 59 to 41; goals 70 to 30; power-play goals 85 to 15; hits 41 to 59.">
+      <img class="img-dark" src="figures/dark/01_production_shares.png" width="1842" height="1446" alt="Stacked bars showing the top six versus bottom six share of 24 forward stats. Ice time splits 59 to 41; goals 70 to 30; power-play goals 85 to 15; hits 41 to 59.">
+      <figcaption>A segment wider than the ice-time line means that group out-produces its minutes. ES, PP and PK ice-time splits are estimated from the manpower timeline.</figcaption>
+    </figure>
+    <div class="col prose">
+      <p>Minute for minute, a bottom-six forward produces 61% of a top-six forward's goals, 73% of the expected goals and 82% of the 5-on-5 goals. He hits 2.1 times as often and takes 33% more penalties. Bottom-six forwards shoot 10.2% against 13.3% for the top six, and they finish 0.08 goals per 60 below their expected goals.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/02_per60_rates.png" width="1517" height="963" alt="Bars of bottom-six per-60 rates as a percentage of top-six rates: hits 210%, penalties taken 133%, blocked shots 128%, goals 61%, points 59%.">
+      <img class="img-dark" src="figures/dark/02_per60_rates.png" width="1517" height="963" alt="Bars of bottom-six per-60 rates as a percentage of top-six rates: hits 210%, penalties taken 133%, blocked shots 128%, goals 61%, points 59%.">
+    </figure>
+    <div class="col prose">
+      <p>At even strength the top six outscore opponents 2.89 to 2.69 per 60 minutes, while the bottom six are outscored 2.10 to 2.37. The bottom six actually allow fewer goals per 60. Their problem is offense. Only 34% of bottom-six groups in the sample had a positive even-strength goal differential, against 64% of top-six groups.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/02b_even_strength_on_ice.png" width="1536" height="782" alt="Grouped bars of on-ice even-strength goals per 60: top six 2.89 for and 2.69 against (+0.20); bottom six 2.10 for and 2.37 against (-0.27).">
+      <img class="img-dark" src="figures/dark/02b_even_strength_on_ice.png" width="1536" height="782" alt="Grouped bars of on-ice even-strength goals per 60: top six 2.89 for and 2.69 against (+0.20); bottom six 2.10 for and 2.37 against (-0.27).">
+    </figure>
+    <div class="col prose">
+      <p class="callout bottom">Bottom-six goals are not cheap. Each adds 15.1% win probability on average, against 16.2% for a top-six goal. Half of them tie the game or take the lead, the same rate as top-six goals. One more goal multiplies the odds of winning by 3.29 from the bottom six and 3.35 from the top six, which is statistically the same.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/05_goal_leverage.png" width="1860" height="765" alt="Three bar panels comparing top six, bottom six and defense goals: win probability added per goal 16.2%, 15.1%, 17.2%; goals that tie or take the lead 50%, 49%, 53%; game-winners 15%, 14%, 17%.">
+      <img class="img-dark" src="figures/dark/05_goal_leverage.png" width="1860" height="765" alt="Three bar panels comparing top six, bottom six and defense goals: win probability added per goal 16.2%, 15.1%, 17.2%; goals that tie or take the lead 50%, 49%, 53%; game-winners 15%, 14%, 17%.">
+    </figure>
+  </section>
+
+  <!-- ===================== WINNING ===================== -->
+  <section id="winning">
+    <div class="col section-head">
+      <p class="eyebrow">Winning</p>
+      <h2>A depth goal matters most when the stars go quiet</h2>
+    </div>
+    <div class="col prose">
+      <p>Teams win 62% of games in which the bottom six score and 36% of games in which they don't. The top six score one goal or fewer in 45% of games, and those are the nights depth decides.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/03_winpct_heatmap.png" width="1403" height="863" alt="Heatmap of win percentage by top-six goals (0 to 5+) and bottom-six goals (0 to 3+), from 5% with no goals from either group to 100% when both score heavily.">
+      <img class="img-dark" src="figures/dark/03_winpct_heatmap.png" width="1403" height="863" alt="Heatmap of win percentage by top-six goals (0 to 5+) and bottom-six goals (0 to 3+), from 5% with no goals from either group to 100% when both score heavily.">
+    </figure>
+    <figure class="wide">
+      <img class="img-light" src="figures/04_depth_goal_lift.png" width="1611" height="888" alt="Line chart of win percentage by top-six goals, with and without a bottom-six goal. The lift is 19, 32, 32, 24 and 10 points for 0 to 4+ top-six goals.">
+      <img class="img-dark" src="figures/dark/04_depth_goal_lift.png" width="1611" height="888" alt="Line chart of win percentage by top-six goals, with and without a bottom-six goal. The lift is 19, 32, 32, 24 and 10 points for 0 to 4+ top-six goals.">
+    </figure>
+    <div class="col table-wrap">
+      <table>
+        <thead><tr><th>Top 6 goals</th><th>Win % if bottom 6 score 0</th><th>Win % if bottom 6 score 1+</th><th>Lift</th></tr></thead>
+        <tbody>
+          <tr><td class="n">0</td><td class="n">5%</td><td class="n">25%</td><td class="n">+19 pts</td></tr>
+          <tr><td class="n">1</td><td class="n">15%</td><td class="n">47%</td><td class="n strong">+32 pts</td></tr>
+          <tr><td class="n">2</td><td class="n">38%</td><td class="n">70%</td><td class="n strong">+32 pts</td></tr>
+          <tr><td class="n">3</td><td class="n">63%</td><td class="n">87%</td><td class="n">+24 pts</td></tr>
+          <tr><td class="n">4+</td><td class="n">86%</td><td class="n">95%</td><td class="n">+10 pts</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col prose">
+      <h3>Across a season</h3>
+      <p>A team-season model of points % (160 team-seasons, R&sup2; = 0.93) splits goal differential into four parts. A goal of differential is worth about the same whichever group produces it. The groups differ in how much teams vary on each part. Top-six even-strength goal differential explains 35% of the explained gap between teams, the bottom six 25%, special teams 23%, and empty-net and extra-attacker goals 17%. Among forwards that is a 59/41 split, almost exactly their 58/42 split of even-strength ice time.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/06_team_relative_importance.png" width="2199" height="726" alt="Bars showing share of explained standings differences: top six even-strength goal differential 35%, bottom six 25%, special teams 23%, empty-net and extra-attacker 17%.">
+      <img class="img-dark" src="figures/dark/06_team_relative_importance.png" width="2199" height="726" alt="Bars showing share of explained standings differences: top six even-strength goal differential 35%, bottom six 25%, special teams 23%, empty-net and extra-attacker 17%.">
+    </figure>
+    <figure class="wide">
+      <img class="img-light" src="figures/07_team_quadrants.png" width="1788" height="830" alt="Bars by team type: both groups strong 106 points and 91% playoffs; strong top six only 96 and 61%; strong bottom six only 90 and 39%; both weak 75 and 9%.">
+      <img class="img-dark" src="figures/dark/07_team_quadrants.png" width="1788" height="830" alt="Bars by team type: both groups strong 106 points and 91% playoffs; strong top six only 96 and 61%; strong bottom six only 90 and 39%; both weak 75 and 9%.">
+    </figure>
+    <div class="col table-wrap">
+      <table>
+        <thead><tr><th>Team type (split at league median)</th><th>Teams</th><th>Points / 82</th><th>Made playoffs</th></tr></thead>
+        <tbody>
+          <tr><td>Strong top 6 and strong bottom 6</td><td class="n">57</td><td class="n strong">106</td><td class="n strong">91%</td></tr>
+          <tr><td>Strong top 6 only</td><td class="n">23</td><td class="n">96</td><td class="n">61%</td></tr>
+          <tr><td>Strong bottom 6 only</td><td class="n">23</td><td class="n">90</td><td class="n">39%</td></tr>
+          <tr><td>Both weak</td><td class="n">57</td><td class="n">75</td><td class="n">9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col prose">
+      <p class="callout">With a strong top six, adding a strong bottom six is worth about 10 standings points and 30 percentage points of playoff probability.</p>
+    </div>
+  </section>
+
+  <!-- ===================== THEORY A ===================== -->
+  <section id="theory-top">
+    <div class="col section-head">
+      <p class="eyebrow">Theory &middot; no bottom six</p>
+      <h2>What would the top six need if the bottom six disappeared?</h2>
+    </div>
+    <div class="col prose">
+      <p>Three ways to look at it, from most literal to most hypothetical.</p>
+    </div>
+
+    <div class="col lens">
+      <p class="lens-tag">Lens 1 &middot; erase depth scoring</p>
+      <h3>Remove every bottom-six goal and re-score the games</h3>
+      <ul class="prose" style="padding-left:1.2em;margin:0">
+        <li>Win % falls from 50.0% to 39.6% and points % from .556 to .447. That is 8.5 wins and 17.8 standings points per 82 games, enough to turn a 91-point bubble team into a 73-point lottery team.</li>
+        <li>30% of all wins needed at least one bottom-six goal.</li>
+        <li>To make up for it the top six would need 2.62 goals a game instead of 1.86, a 41% increase. Only 1 of 160 team-seasons had a top six that productive. The best managed 2.74.</li>
+      </ul>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/10_goals_needed_without_depth.png" width="1512" height="871" alt="Bars of win percentage when the bottom six score zero, by top-six goals: 5%, 15%, 38%, 63%, 80%, 96%. A line shows how often the top six score each total: 16%, 29%, 26%, 17%, 8%, 4%.">
+      <img class="img-dark" src="figures/dark/10_goals_needed_without_depth.png" width="1512" height="871" alt="Bars of win percentage when the bottom six score zero, by top-six goals: 5%, 15%, 38%, 63%, 80%, 96%. A line shows how often the top six score each total: 16%, 29%, 26%, 17%, 8%, 4%.">
+      <figcaption>On a single night with no depth scoring, the top six need three goals just to be favorites. They score three or more in 29% of games.</figcaption>
+    </figure>
+
+    <div class="col lens">
+      <p class="lens-tag">Lens 2 &middot; a replacement-level bottom six</p>
+      <h3>How good must the top six be to still make the playoffs?</h3>
+      <p>Instead of zero goals, give the team the worst bottom six in the sample. The playoff line sits at a points % of about .564.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/08_required_top6_isolines.png" width="1584" height="1285" alt="Scatter of 160 team-seasons by bottom-six and top-six even-strength goal differential per 60, with lines of equal points percentage. With a replacement bottom six the top six must be +0.86 per 60 to reach the playoff line.">
+      <img class="img-dark" src="figures/dark/08_required_top6_isolines.png" width="1584" height="1285" alt="Scatter of 160 team-seasons by bottom-six and top-six even-strength goal differential per 60, with lines of equal points percentage. With a replacement bottom six the top six must be +0.86 per 60 to reach the playoff line.">
+    </figure>
+    <div class="col table-wrap">
+      <table>
+        <thead><tr><th>Bottom 6 (ES goal diff /60)</th><th>Top 6 needed: playoffs</th><th>Real top 6s that good</th><th>Top 6 needed: .620 contender</th><th>Real top 6s that good</th></tr></thead>
+        <tbody>
+          <tr><td>Replacement, 5th pct (<span class="mono">&minus;1.17</span>)</td><td class="n">+0.86</td><td class="n">12.5%</td><td class="n">+1.55</td><td class="n strong">1.9%</td></tr>
+          <tr><td>Weak, 25th pct (<span class="mono">&minus;0.63</span>)</td><td class="n">+0.53</td><td class="n">31%</td><td class="n">+1.23</td><td class="n">3.1%</td></tr>
+          <tr><td>Average, median (<span class="mono">&minus;0.18</span>)</td><td class="n">+0.26</td><td class="n">48%</td><td class="n">+0.96</td><td class="n">5.6%</td></tr>
+          <tr><td>Strong, 75th pct (<span class="mono">+0.13</span>)</td><td class="n">+0.08</td><td class="n">60%</td><td class="n">+0.77</td><td class="n">16.9%</td></tr>
+          <tr><td>Elite, 95th pct (<span class="mono">+0.59</span>)</td><td class="n strong">&minus;0.20</td><td class="n strong">75%</td><td class="n">+0.50</td><td class="n">34%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col prose">
+      <p>With a replacement-level bottom six, about one top six in eight is good enough to make the playoffs, and almost none can carry a contender. With an elite bottom six, a top six that is outscored at even strength still gets in.</p>
+    </div>
+
+    <div class="col lens">
+      <p class="lens-tag">Lens 3 &middot; the two-line team</p>
+      <h3>Only six forwards dress and the stars take every shift</h3>
+      <p>The top six would go from about 18 to about 30 minutes a night, with roughly half the rest between shifts. The model uses each group's measured even-strength goals for and against per 60, and applies a fatigue penalty <span class="mono">f</span> to the top six: goals for drop by <span class="mono">f</span> and goals against rise by <span class="mono">f</span>. The break-even fatigue is the <span class="mono">f</span> at which two lines are exactly as good as the real twelve-forward lineup.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/09_two_line_theory.png" width="1820" height="962" alt="Lines of standings points gained or lost by a two-line team as the top-six fatigue penalty rises from 0% to 30%, for four team types. Break-even fatigue is 3.7% for an average team, 10.5% for an elite top six, 17.7% for an elite top six with a weak bottom six.">
+      <img class="img-dark" src="figures/dark/09_two_line_theory.png" width="1820" height="962" alt="Lines of standings points gained or lost by a two-line team as the top-six fatigue penalty rises from 0% to 30%, for four team types. Break-even fatigue is 3.7% for an average team, 10.5% for an elite top six, 17.7% for an elite top six with a weak bottom six.">
+    </figure>
+    <div class="col table-wrap">
+      <table>
+        <thead><tr><th>Team type</th><th>Break-even fatigue</th></tr></thead>
+        <tbody>
+          <tr><td>Average top 6 and average bottom 6 (league)</td><td class="n strong">3.5&ndash;3.7%</td></tr>
+          <tr><td>Elite top 6 and average bottom 6</td><td class="n">10.5%</td></tr>
+          <tr><td>Elite top 6 and weak bottom 6</td><td class="n">17.7%</td></tr>
+          <tr><td>Average top 6 and elite bottom 6</td><td>Worse even with zero fatigue</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col prose">
+      <p>On the second night of a back-to-back, top-six expected goals drop 5.1% (&plusmn;0.8%), top-six points drop 7.2%, team goals for drop 6.7% and goals against rise 6.0%. One day of accumulated fatigue already costs more than the 3.5% an average team can afford. A two-line team would add twelve extra minutes every night inside the same game.</p>
+      <p class="callout">A team with no bottom six works only on paper. It needs an elite top six and a bottom six so bad that thirty-minute stars are still the better option.</p>
+    </div>
+  </section>
+
+  <!-- ===================== THEORY B ===================== -->
+  <section id="theory-bottom">
+    <div class="col section-head">
+      <p class="eyebrow">Theory &middot; the right bottom six</p>
+      <h2>Which bottom-six traits help any team win?</h2>
+    </div>
+    <div class="col prose">
+      <p>Each trait below is correlated with points % after controlling for top-six quality, special teams and goaltending (goals saved above expected). Orange points have a 90% interval that excludes zero.</p>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/11_bottom6_recipe.png" width="1926" height="1085" alt="Dot plot of partial correlations between bottom-six traits and points percentage. Strongest: even-strength goal differential +0.58, goals against -0.46, points +0.35. Near zero: hits, blocked shots, faceoffs.">
+      <img class="img-dark" src="figures/dark/11_bottom6_recipe.png" width="1926" height="1085" alt="Dot plot of partial correlations between bottom-six traits and points percentage. Strongest: even-strength goal differential +0.58, goals against -0.46, points +0.35. Near zero: hits, blocked shots, faceoffs.">
+    </figure>
+    <div class="col prose">
+      <h3>The bottom-six checklist</h3>
+      <ul class="checklist">
+        <li><span class="mark yes">+</span><span><strong>Don't lose your minutes.</strong> Even-strength goals against per 60 is the biggest single lever (partial r = &minus;0.46). A bottom six that breaks even beats one that scores more but gives up chances.</span></li>
+        <li><span class="mark yes">+</span><span><strong>Chip in about a goal a night.</strong> The average bottom six scores 0.78 a game, and the lift is largest when the stars go cold.</span></li>
+        <li><span class="mark yes">+</span><span><strong>Finish what you get.</strong> Bottom-six groups that beat their expected goals win more (partial r = +0.20).</span></li>
+        <li><span class="mark yes">+</span><span><strong>Stay out of the box and draw penalties.</strong> The bottom six take 33% more penalties per minute than the top six, and penalty differential is a significant positive trait (+0.15).</span></li>
+        <li><span class="mark no">&minus;</span><span><strong>Don't pay for hits, blocks or faceoffs.</strong> They are the most visible bottom-six stats and show no link to winning once goal differential is known (hits &minus;0.05, blocks +0.03, faceoff win % &minus;0.09).</span></li>
+      </ul>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/12_value_curves.png" width="1409" height="888" alt="Lines of standings points per 82 games versus a median group as each group moves through league percentiles. Top six spans -14 to +10, bottom six -8 to +6.">
+      <img class="img-dark" src="figures/dark/12_value_curves.png" width="1409" height="888" alt="Lines of standings points per 82 games versus a median group as each group moves through league percentiles. Top six spans -14 to +10, bottom six -8 to +6.">
+    </figure>
+    <div class="col prose">
+      <p>Moving a bottom six from the 10th to the 90th percentile is worth about 10.5 standings points per 82 games. The same move for a top six is worth 18.7. A depth upgrade is worth a little more than half a top-six upgrade in the standings. Whether it is the better buy depends on price, and salaries are not part of this dataset.</p>
+    </div>
+  </section>
+
+  <!-- ===================== PLAYOFFS ===================== -->
+  <section id="playoffs">
+    <div class="col section-head">
+      <p class="eyebrow">Playoffs</p>
+      <h2>Every recent champion had a bottom six that won its minutes</h2>
+    </div>
+    <div class="col prose">
+      <ul>
+        <li>In the playoffs the bottom six play slightly less (39.1% of forward ice time against 40.6%) and score slightly less (22.8% of team goals against 25.2%).</li>
+        <li>Across 75 series, the winner had the better bottom-six even-strength goal differential 71% of the time, a little more often than it had the better top-six goal differential (67%).</li>
+        <li>All five champions had a bottom six with a positive even-strength goal differential. The other playoff teams' bottom-six groups averaged negative every year.</li>
+      </ul>
+    </div>
+    <figure class="wide">
+      <img class="img-light" src="figures/13_playoffs.png" width="2073" height="865" alt="Left: series winners won the top-six goal-differential battle 67% of the time and the bottom-six battle 71%. Right: each Stanley Cup champion's bottom-six even-strength goal differential per playoff game was positive (+0.16 to +0.62) while other playoff teams averaged negative.">
+      <img class="img-dark" src="figures/dark/13_playoffs.png" width="2073" height="865" alt="Left: series winners won the top-six goal-differential battle 67% of the time and the bottom-six battle 71%. Right: each Stanley Cup champion's bottom-six even-strength goal differential per playoff game was positive (+0.16 to +0.62) while other playoff teams averaged negative.">
+    </figure>
+    <div class="col table-wrap">
+      <table>
+        <thead><tr><th>Champion</th><th>Bottom 6 ES goal diff / game</th><th>Other playoff teams</th><th>Bottom 6 share of goals</th><th>All playoff teams</th></tr></thead>
+        <tbody>
+          <tr><td>2021-22 Colorado</td><td class="n pos-val">+0.23</td><td class="n neg-val">&minus;0.28</td><td class="n">16.5%</td><td class="n">20.5%</td></tr>
+          <tr><td>2022-23 Vegas</td><td class="n pos-val">+0.57</td><td class="n neg-val">&minus;0.22</td><td class="n">28.4%</td><td class="n">24.2%</td></tr>
+          <tr><td>2023-24 Florida</td><td class="n pos-val">+0.16</td><td class="n neg-val">&minus;0.10</td><td class="n">20.5%</td><td class="n">21.2%</td></tr>
+          <tr><td>2024-25 Florida</td><td class="n pos-val">+0.47</td><td class="n neg-val">&minus;0.12</td><td class="n">20.2%</td><td class="n">21.0%</td></tr>
+          <tr><td>2025-26 Carolina</td><td class="n pos-val">+0.62</td><td class="n neg-val">&minus;0.15</td><td class="n">34.8%</td><td class="n">27.4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col prose">
+      <p>Champions don't always get more scoring from their depth. Colorado and Florida didn't. Every one of them had a bottom six that outscored the opposition when it was on the ice.</p>
+    </div>
+  </section>
+
+  <!-- ===================== METHOD ===================== -->
+  <section id="method">
+    <div class="col section-head">
+      <p class="eyebrow">Method and limits</p>
+      <h2>How the numbers were built</h2>
+    </div>
+    <div class="wide method-grid">
+      <div>
+        <h3>Data</h3>
+        <p>Boxscores and full play-by-play for every regular-season and playoff game from 2021-22 to 2025-26: 6,560 regular-season games, 433 playoff games and 160 team-seasons, from the public NHL web API (<span class="mono">api-web.nhle.com</span>).</p>
+      </div>
+      <div>
+        <h3>Roles</h3>
+        <p>Top 6 means the six dressed forwards with the highest season-average ice time for that team. Defining the roles by each game's ice time instead gives the same results: the bottom six score 25.9% of team goals instead of 25.2%, and teams win 63.7% (vs 62.4%) when they score.</p>
+      </div>
+      <div>
+        <h3>Models</h3>
+        <p>An expected-goals model (shot distance, angle, type, rebound, rush, manpower; AUC 0.77, trained leave-one-season-out) and an in-game win-probability model (clock and score; AUC 0.81). Every goal is valued by the win probability it added.</p>
+      </div>
+      <div>
+        <h3>Even-strength on-ice goals</h3>
+        <p>The public API has no shift data, so each group's on-ice goals for and against are rebuilt from plus/minus, goal and assist credits, and each team's even-strength, power-play and penalty-kill seconds. The groups' totals match the real totals (2.142 vs 2.146 goals against per game).</p>
+      </div>
+      <div>
+        <h3>Limits</h3>
+        <p>On-ice figures are estimates, not shift-level truth, and lines are not perfectly separated. Quality of competition is not controlled, so bottom-six goals-against rates are flattered. Team-level results rest on 160 team-seasons and show correlation, not cause. The two-line team is a theoretical model whose fatigue penalty is a free parameter.</p>
+      </div>
+      <div>
+        <h3>Reproduce</h3>
+        <p>All code, tables and charts are in <a href="https://github.com/Luca-Pfi/NHL" target="_blank" rel="noopener">github.com/Luca-Pfi/NHL</a>. One script fetches the games, builds the tables, fits the models and redraws every chart.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wide">
+    <p>Regular season unless marked as playoffs. Wins include overtime and shootout wins; shootout goals are excluded from all scoring stats.</p>
+    <p>Source code: <a href="https://github.com/Luca-Pfi/NHL" target="_blank" rel="noopener">github.com/Luca-Pfi/NHL</a> &middot; full write-up: <a href="https://github.com/Luca-Pfi/NHL/blob/main/REPORT.md" target="_blank" rel="noopener">REPORT.md</a></p>
+  </footer>
+</div>
+</body>
+</html>
